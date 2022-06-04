@@ -1,6 +1,11 @@
 DROP DATABASE IF EXISTS company_cms;
 CREATE DATABASE company_cms;
 
+DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS departments;
+
+
 USE company_cms;
 
 CREATE TABLE departments(
