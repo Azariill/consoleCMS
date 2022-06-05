@@ -1,31 +1,18 @@
 
+
 const inquirer = require('inquirer');
 const db = require('../config/connection');
+const {showAll ,updateRoles ,updateDepartments} = require('./queries');
 
 class Database{
-    constructor(){
-        this.deparments = []
-        this.roles = [];
-        this.employees =[];
+    constructor(departments,roles,employees){
+        this.deparments = departments;
+        this.roles = roles;
+        this.employees = employees;
     }
   
 
     init(){
-        // finds existing departments and sets them to this.deparments in constructor
-        db.query(`SELECT * FROM departments`,(err,res)=> {
-            let arry = [];
-            if(err){
-                console.log(err);
-            }
-            res.map(x =>{
-                const {department_name} = x;
-                
-                arry.push(department_name);
-                
-            })
-            this.deparments = arry;
-            ;});
-
         
 
         // initial prompts 
@@ -33,7 +20,7 @@ class Database{
             type: 'list',
             message: 'What would you like to do?',
             name: 'choice',
-            choices:['View all departments', 'View all employees','Add a deparment','Add a role','Add an employee','Update an employee role']
+            choices:['View all departments', 'View all employees','View all roles','Add a deparment','Add a role','Add an employee','Update an employee role']
         })
         .then(( {choice} ) =>{
            
@@ -44,11 +31,18 @@ class Database{
                 case 'View all employees':
                     this.viewEmployees();
                     break;
+                case 'View all roles':
+                    
+                    this.viewRoles();
+                    break;
                 case 'Add a deparment':
                     this.addDepartment();
                     break;
                 case 'Add a role':
                     this.addRole();
+                    break;
+                case 'Add an employee':
+                    this.addEmployee();
                     break;
 
             }
@@ -56,31 +50,19 @@ class Database{
     }
 
     viewDepartments(){
-        const sql = `SELECT * FROM departments`;
-        db.query(sql,(err,res)=> {
-            if(err){
-                console.log(err);
-                return this.init();
-            }
-            console.table(res);
-            return this.init()
-        });
-        
+        showAll('departments');
+        return this.init();
     };
 
     viewEmployees(){
-        const sql = `SELECT * FROM employees`;
-        db.query(sql,(err,res)=> {
-            if(err){
-                console.log(err);
-                return this.init();
-            }
-            console.table(res);
-           
-            return this.init()
-        });
-        
+        showAll('employees');
+        return this.init();
     };
+    viewRoles(){
+        console.log('hello');
+        showAll('roles');
+        return this.init();
+    }
     addDepartment(){
         const sql = `INSERT INTO departments (department_name) VALUES (?)`
         inquirer.prompt({
@@ -123,11 +105,11 @@ class Database{
             }
         ])
         .then((roleData) => {
-            console.log(roleData);
+            
             let {role, department_id, salary} = roleData;
 
             
-            let newId;
+            
              
              db.query(`SELECT id FROM departments WHERE department_name ='${department_id}'`,(err, result) =>{
                  if(err){
@@ -143,7 +125,62 @@ class Database{
                 })
                
              })
+             return this.init();
          });
+    };
+    addEmployee(){
+        
+            const sql = `INSERT INTO employees (first_name, last_name, job_title_id, manager) VALUES (?,?,?,?)`
+            
+            inquirer.prompt([
+                
+                {
+                    type:'input',
+                    message:'What is the first name of the employee?',
+                    name: 'first_name'
+                },
+                {
+                    type:'input',
+                    name: 'last_name',
+                    message: 'What is the last name of the employee?',
+        
+                },
+                {
+                    type:'list',
+                    message: 'What is the employees job title?',
+                    name: 'job_title_id',
+                    choices: this.roles
+                },
+                {
+                    type:'input',
+                    message:'Who is the employees manager? If no one leave blank',
+                    name: 'manager'
+                }
+            ])
+            .then((employeeData) => {
+                console.log(employeeData);
+                let {first_name, last_name,job_title_id, manager} = employeeData;
+                console.log(job_title_id);
+                
+                
+                 
+                 db.query(`SELECT department_id FROM roles WHERE job_title ='${job_title_id}'`,(err, result) =>{
+                     if(err){
+                        console.log(err)
+                    }
+                    
+                    let {department_id} = result[0];
+                    let parms = [first_name,last_name,department_id,manager];
+                    db.query(sql,parms,(err,result)=>{
+                        if(err){
+                            console.log(err);
+                        }
+                        console.log(`The new employee ${first_name + last_name} has been succesfully added`);
+                    })
+                   this.init();
+                 })
+             });
+        
     };
 
 }
