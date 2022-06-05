@@ -8,7 +8,7 @@ module.exports = {
 
  showAll(table){
     const sql = `SELECT * FROM ${table}`;
-    const result = '';
+    
     db.query(sql,(err,res)=> {
         if(err){
             console.log(err);
@@ -37,36 +37,24 @@ module.exports = {
 
 },
 
- updateRoles(){
+updateRoles(){
     var arry = [];
     // finds existing roles and sets them to this.deparments in constructor
-    return db.promise().query(`SELECT * FROM roles`)
-    .then(res => {
-        res[0].map(x =>{ 
-            const {job_title} = x;
-            arry.push(job_title);}
-            )
-        return arry;
-    }
-);
-
-  
-        // if(err){
-        //                 console.log(err);
-        //             }
-        // if(res){ 
-        //     res.map(x =>{
-        //         const {job_title} = x;
-        //         newArry.push(job_title);
-        //                 });
-
-        //             };
-        //             console.log(newArry);
-        //             return newArry
-        //         });
-                
-        //         console.log(newArry);
-        //     }
-            
+    db.query(`SELECT * FROM roles`,(err,res)=>{
+        if(err){
+                        console.log(err);
+                    }
+        if(res){ 
+            res.map(x =>{
+                const {job_title} = x;
+                arry.push(job_title);
+                        });
+                        console.log(arry);
+                    };
+                    console.log(arry);
+                    return arry;
+                });
 }
+            
+
 }

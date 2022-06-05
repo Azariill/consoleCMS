@@ -3,16 +3,17 @@ const Database = require('./utils/database');
 const {showAll ,updateRoles ,updateDepartments} = require('./utils/queries');
 
 const departments = updateDepartments();
-const currentRoles = updateRoles();
+const roles = updateRoles();
 const employees = [];
 
-console.log(currentRoles);
+
 
 
 db.connect(err => {
   if (err) throw err;
   
-  let database = new Database(departments,currentRoles,employees);
+  let database = new Database();
+  updateRoles();
 
   return database.init();
  
