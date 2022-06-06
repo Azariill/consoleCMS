@@ -21,7 +21,7 @@ module.exports = {
  updateDepartments(){
 
     // finds existing departments and sets them to this.deparments in constructor
-    db.query(`SELECT * FROM departments`,(err,res)=> {
+   return db.query(`SELECT * FROM departments`,(err,res)=> {
         let arry = [];
         if(err){
             console.log(err);
@@ -34,26 +34,32 @@ module.exports = {
         };
         return arry;
     });
-
+    
 },
 
 updateRoles(){
-    var arry = [];
-    // finds existing roles and sets them to this.deparments in constructor
-    db.query(`SELECT * FROM roles`,(err,res)=>{
-        if(err){
-                        console.log(err);
-                    }
-        if(res){ 
-            res.map(x =>{
-                const {job_title} = x;
-                arry.push(job_title);
-                        });
-                        console.log(arry);
-                    };
-                    console.log(arry);
-                    return arry;
-                });
+    return new Promise(function(resolve,reject){
+        db.query(`SELECT * FROM roles`,(err,res)=>{
+        
+            if(!res){
+                            reject(new Error('Error row is not defined'))
+                        }
+            else{ 
+                let arry = [];
+                res.map(x =>{
+                    const {job_title} = x;
+                    arry.push(job_title);
+                            });
+                            resolve(arry); 
+                        };
+                        
+                        
+          
+                    });
+        
+    })
+   
+           
 }
             
 

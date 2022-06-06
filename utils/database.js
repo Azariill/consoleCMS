@@ -5,15 +5,16 @@ const db = require('../config/connection');
 const {showAll ,updateRoles ,updateDepartments} = require('./queries');
 
 class Database{
-    constructor(departments,roles,employees){
-        this.deparments = departments;
+    constructor(roles){
+        
         this.roles = roles;
-        this.employees = employees;
+        
     }
   
 
     init(){
         
+         console.log(this.roles)
 
         // initial prompts 
         inquirer.prompt({
