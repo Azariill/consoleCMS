@@ -21,7 +21,7 @@ module.exports = {
  updateDepartments(){
 
     // finds existing departments and sets them to this.deparments in constructor
-   return db.query(`SELECT * FROM departments`,(err,res)=> {
+    db.query(`SELECT * FROM departments`,(err,res)=> {
         let arry = [];
         if(err){
             console.log(err);
