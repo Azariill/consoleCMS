@@ -4,17 +4,18 @@ const inquirer = require('inquirer');
 const db = require('../config/connection');
 const {showAll ,updateRoles ,updateDepartments} = require('./queries');
 
+
 class Database{
-    constructor(roles){
+    constructor(){
         
-        this.roles = roles;
+        this.roles = [];
         
     }
   
 
     init(){
         
-         console.log(this.roles)
+       
 
         // initial prompts 
         inquirer.prompt({

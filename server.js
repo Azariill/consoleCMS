@@ -1,22 +1,24 @@
 const db = require('./config/connection');
 const Database = require('./utils/database');
-const {showAll ,updateRoles ,updateDepartments} = require('./utils/queries');
+const {showAll ,findJobTitle ,updateDepartments} = require('./utils/queries');
 
 
 
-const roles = updateRoles().then(result => result);
-
-const departments = updateDepartments();
-
-const employees = [];
 
 
 
 
 db.connect(err => {
   if (err) throw err;
-  console.log(roles);
-  let database = new Database(roles);
+  let currentRole = [];
+
+  db.promise().query(`SELECT * FROM roles`)
+  .then(results =>  findJobTitle(results[0]))
+  .then(result => currentRole = result );
+  
+  console.log(currentRole);
+
+  let database = new Database();
 
   return database.init();
  

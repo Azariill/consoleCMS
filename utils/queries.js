@@ -37,30 +37,21 @@ module.exports = {
     
 },
 
-updateRoles(){
-    return new Promise(function(resolve,reject){
-        db.query(`SELECT * FROM roles`,(err,res)=>{
-        
-            if(!res){
-                            reject(new Error('Error row is not defined'))
-                        }
-            else{ 
-                let arry = [];
-                res.map(x =>{
-                    const {job_title} = x;
-                    arry.push(job_title);
-                            });
-                            resolve(arry); 
-                        };
-                        
-                        
-          
-                    });
-        
-    })
+findJobTitle(arry){
+    let newArry = [];
    
-           
-}
-            
+    arry.map(x => {
+        const {job_title} = x;
+        newArry.push(job_title);
+        
+        });
+   
+    return newArry;
+    },
+
+
+
+
+
 
 }
