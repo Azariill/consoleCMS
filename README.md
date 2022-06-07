@@ -35,6 +35,6 @@
   
 ### Have any addition questions for me? I have been found at the links down below<br>
   
-- GitHub Username : Azarill | | Profile link: https://github.com/Azarill<br>
+- GitHub Username : Azarill | | Profile link: https://github.com/Azariill<br>
   
 - Email : Heierms@gmail.com
