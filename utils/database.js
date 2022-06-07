@@ -18,6 +18,7 @@ class Database{
     }
     init(){
         
+        
         // grabs the most recent deparment info and sets it to this. deparments
         db.query(`SELECT * FROM departments`,(err,res)=> {
             let arry = [];
@@ -73,25 +74,31 @@ class Database{
            // directs traffic based on what is chosen on first prompt
             switch(choice){
                 case 'View all departments':
+                    console.clear();
                     this.viewDepartments();
                     break;
                 case 'View all employees':
+                    console.clear();
                     this.viewEmployees();
                     break;
                 case 'View all roles':
-                    
+                    console.clear();
                     this.viewRoles();
                     break;
                 case 'Add a deparment':
+                    console.clear();
                     this.addDepartment();
                     break;
                 case 'Add a role':
+                    console.clear();
                     this.addRole();
                     break;
                 case 'Add an employee':
+                    console.clear();
                     this.addEmployee();
                     break;
                 case 'Update an employee role':
+                    console.clear();
                     this.upDateEmployeeRole();
                     break;
 
@@ -131,10 +138,11 @@ class Database{
                     console.log(err)
                        }
                     console.log(`\n\n${addDepartment} has been successfully added! \n \n`);
+                     // returns the starting prompt again
+                    return this.init();
                 });
             });
-    // returns the starting prompt again
-        return this.init;
+   
         };
 // function for adding role
     addRole(){
@@ -222,21 +230,18 @@ class Database{
               // deconstructs the new employee data
                 let {first_name, last_name,job_title_id, manager} = employeeData;
               // first query the roles table for deparment id based on job title given
-                 db.query(`SELECT department_id FROM roles WHERE job_title ='${job_title_id}'`,(err, result) =>{
+                 db.query(`SELECT id FROM roles WHERE job_title ='${job_title_id}'`,(err, result) =>{
                      if(err){
                         console.log(err)
                     }
                     // sql formatting for insert
                     const sql = `INSERT INTO employees (first_name, last_name, job_title_id, manager) VALUES (?,?,?,?)`
                     // deparment id deconstruction from first query
-                    let {department_id} = result[0];
+                    let {id} = result[0];
                     // params variable for next query
-                    let parms = [first_name,last_name,department_id,manager];
+                    let parms = [first_name,last_name,id,manager];
                     // insert query for new employee
                     db.query(sql,parms,(err,result)=>{
-                        if(err){
-                            console.log(err);
-                        }
                         console.log(`The new employee ${first_name + last_name} has been succesfully added`);
                         return this.init();
                     })
@@ -245,6 +250,10 @@ class Database{
             });
         };
     upDateEmployeeRole(){
+                        if(err){
+                            console.log(err);
+                        }
+                       
         // inquirer prompt to ask which employee they would like to update and with what role
         inquirer.prompt([
                 
@@ -274,6 +283,7 @@ class Database{
                      if(err){
                         console.log(err)
                     }
+                    
                     // employees SET job_title_id = ?
                         let {id} = result[0];
                     // params for query
