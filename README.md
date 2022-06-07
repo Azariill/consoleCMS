@@ -6,25 +6,35 @@
   ## Table of Contents
   [Installation](#installation)<br>
   [Usage](#usage)<br>
-  
   [Contributing](#contributing)<br>
   [Tests](#tests)<br>
   [Questions](#questions)<br>
 
   ## Installation
   
-     * Step One Git Clone<br>* Step Two NPM I<br>* Step Three source schema in mysql<br>* Step Four NPM Start<br>
+     
+* Step One Git Clone<br>
+* Step Two NPM I<br>
+* Step Three source schema in mysql<br>
+* Step Four NPM Start<br>
   
 
-  ## Usage
+  
+## Usage
   This could be used to manage a small buisness.
   
   
-  ## Contributing
+  
+## Contributing
   n/a
-  ## Tests
+  
+## Tests
   clone code 
-  ## Questions
-  ### Have any addition questions for me? I have been found at the links down below<br>
-  - GitHub Username : Azarill | | Profile link: https://github.com/Azarill<br>
-  - Email : Heierms@gmail.com
+  
+## Questions
+  
+### Have any addition questions for me? I have been found at the links down below<br>
+  
+- GitHub Username : Azarill | | Profile link: https://github.com/Azarill<br>
+  
+- Email : Heierms@gmail.com
