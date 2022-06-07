@@ -63,7 +63,7 @@ class Database{
             type: 'list',
             message: 'What would you like to do?',
             name: 'choice',
-            choices:['View all departments', 'View all employees','View all roles','Add a deparment','Add a role','Add an employee','Update an employee role']
+            choices:['View all departments','View all roles','View all employees','Add a deparment','Add a role','Add an employee','Update an employee role']
         })
         .then(( {choice} ) =>{
            
