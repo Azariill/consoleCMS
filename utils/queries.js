@@ -18,40 +18,49 @@ module.exports = {
       console.table(res);
     });
   },
- updateDepartments(){
 
-    // finds existing departments and sets them to this.deparments in constructor
-    db.query(`SELECT * FROM departments`,(err,res)=> {
-        let arry = [];
-        if(err){
-            console.log(err);
-        }
-        if(res){ 
-            res.map(x =>{
-                const {department_name} = x;
-                arry.push(department_name);
-            });
-        };
-        return arry;
-    });
-    
-},
 
-findJobTitle(arry){
-    let newArry = [];
-   
-    arry.map(x => {
-        const {job_title} = x;
-        newArry.push(job_title);
+updateRoles(){
+    db.query(`SELECT * FROM roles`,(err,res)=>{
         
-        });
-   
-    return newArry;
-    },
-
-
-
-
-
+            if(err){
+                    console.log(err)
+                        }
+            if(res){ 
+                let arry = [];
+                res.map(x =>{
+                    const {job_title} = x;
+                    arry.push(job_title);
+                            });
+                           
+                        };
+                        
+                        this.roles = arry;
+          
+                    });       
+                    return this.init();
+}
+,
+updateEmployees(){
+    db.query(`SELECT * FROM employees`,(err,res)=>{
+        
+            if(err){
+                    console.log(err)
+                        }
+            if(res){ 
+                let arry = [];
+                res.map(x =>{
+                    const {first_name,last_name} = x;
+                    arry.push(first_name + last_name);
+                            });
+                           
+                        };
+                        
+                       this.employees = arry;
+          
+                    });       
+           
+}
+           
 
 }

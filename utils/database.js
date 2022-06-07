@@ -2,18 +2,59 @@
 
 const inquirer = require('inquirer');
 const db = require('../config/connection');
-const {showAll ,updateRoles ,updateDepartments} = require('./queries');
+const {showAll ,updateRoles ,updateDepartments, updateEmployees} = require('./queries');
 
 
 class Database{
     constructor(){
-        
+        this.deparments=[];
+        this.employees =[];
         this.roles = [];
         
     }
-  
-
     init(){
+        
+        db.query(`SELECT * FROM departments`,(err,res)=> {
+            let arry = [];
+            if(err){
+                console.log(err);
+            }
+            if(res){ 
+                res.map(x =>{
+                    const {department_name} = x;
+                    arry.push(department_name);
+                });
+            };
+            this.deparments = arry;
+        });
+        db.query(`SELECT * FROM roles`,(err,res)=> {
+            let arry = [];
+            if(err){
+                console.log(err);
+            }
+            if(res){ 
+                res.map(x =>{
+                    const {job_title} = x;
+                    arry.push(job_title);
+                });
+            };
+            this.roles = arry;
+        });
+        db.query(`SELECT * FROM employees`,(err,res)=> {
+            let arry = [];
+            if(err){
+                console.log(err);
+            }
+            if(res){ 
+                res.map(x =>{
+                    const {first_name, last_name} = x;
+                    arry.push(first_name + last_name);
+                });
+            };
+            this.employees = arry;
+        });
+        
+        
         
        
 
@@ -44,11 +85,14 @@ class Database{
                     this.addRole();
                     break;
                 case 'Add an employee':
+                    
                     this.addEmployee();
                     break;
 
             }
         })
+
+
     }
 
     viewDepartments(){
@@ -60,8 +104,7 @@ class Database{
         showAll('employees');
         return this.init();
     };
-    viewRoles(){
-        console.log('hello');
+    viewRoles(){  
         showAll('roles');
         return this.init();
     }
@@ -80,9 +123,11 @@ class Database{
                 }
 
                 console.log(`\n\n${addDepartment} has been successfully added! \n \n`);
-                return this.init();
+
             });
         });
+        updateDepartments();
+        return this.init;
     };
     addRole(){
         const sql = `INSERT INTO roles (job_title, department_id, salary) VALUES (?,?,?)`
@@ -124,17 +169,20 @@ class Database{
                         console.log(err);
                     }
                     console.log(`The new role for ${role} has been succesfully added`);
+                    return this.init();
                 })
                
              })
-             return this.init();
+             
          });
+         
     };
     addEmployee(){
         
             const sql = `INSERT INTO employees (first_name, last_name, job_title_id, manager) VALUES (?,?,?,?)`
             
             inquirer.prompt([
+                
                 
                 {
                     type:'input',
@@ -178,10 +226,14 @@ class Database{
                             console.log(err);
                         }
                         console.log(`The new employee ${first_name + last_name} has been succesfully added`);
+                        return this.init();
                     })
-                   this.init();
+                   
                  })
+                 
+               
              });
+             
         
     };
 
