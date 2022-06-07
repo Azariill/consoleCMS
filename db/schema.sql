@@ -5,10 +5,13 @@ CREATE DATABASE company_cms;
 
 
 USE company_cms;
-
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS departments;
+
+
+
+
 
 CREATE TABLE departments(
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,

@@ -85,8 +85,10 @@ class Database{
                     this.addRole();
                     break;
                 case 'Add an employee':
-                    
                     this.addEmployee();
+                    break;
+                case 'Update an employee role':
+                    this.upDateEmployeeRole();
                     break;
 
             }
@@ -208,9 +210,9 @@ class Database{
                 }
             ])
             .then((employeeData) => {
-                console.log(employeeData);
+              
                 let {first_name, last_name,job_title_id, manager} = employeeData;
-                console.log(job_title_id);
+                
                 
                 
                  
@@ -236,7 +238,65 @@ class Database{
              
         
     };
+    upDateEmployeeRole(){
+        
+        
+        inquirer.prompt([
+                
+                
+            {
+                type:'list',
+                message:'Which employee would youlike to update?',
+                name: 'employees',
+                choices: this.employees
+            },
+            {
+                type:'list',
+                message: 'What is their new job title?',
+                name: 'job_title_id',
+                choices: this.roles
+            },
+        
+        ])
+        .then((employeeData) => {
 
+           
+           
+            
+            let {employees, job_title_id} = employeeData;
+
+            let nameArry = employees.split(' ');
+            const last_name = nameArry[1];
+
+            
+            db.query(`SELECT id FROM roles WHERE job_title ='${job_title_id}'`,(err, result) =>{
+                     if(err){
+                        console.log(err)
+                    }
+                    // employees SET job_title_id = ?
+                        let {id} = result[0];
+                        let params = [id, last_name];
+                        const sql = `UPDATE employees SET job_title_id = ? WHERE last_name = ?`;
+                        
+
+                    db.query(sql, params,(err,res) => {
+                        if(err){console.log(err)}
+                
+                        else{
+                            console.log(res);
+                            console.log(`${job_title_id} was succesfully updated!`);
+                            }
+                            console.log(this.employees);
+                            
+                            return this.init();
+
+            });
+        });
+
+
+            
+
+    })};
 }
 
 module.exports = Database;

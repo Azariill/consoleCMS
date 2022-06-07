@@ -15,52 +15,11 @@ module.exports = {
             return this.init();
         }
       console.log('\n\n\n Press down arrow for options');
-      console.table(res);
+        console.table(res);
     });
   },
 
 
-updateRoles(){
-    db.query(`SELECT * FROM roles`,(err,res)=>{
-        
-            if(err){
-                    console.log(err)
-                        }
-            if(res){ 
-                let arry = [];
-                res.map(x =>{
-                    const {job_title} = x;
-                    arry.push(job_title);
-                            });
-                           
-                        };
-                        
-                        this.roles = arry;
-          
-                    });       
-                    return this.init();
-}
-,
-updateEmployees(){
-    db.query(`SELECT * FROM employees`,(err,res)=>{
-        
-            if(err){
-                    console.log(err)
-                        }
-            if(res){ 
-                let arry = [];
-                res.map(x =>{
-                    const {first_name,last_name} = x;
-                    arry.push(first_name + last_name);
-                            });
-                           
-                        };
-                        
-                       this.employees = arry;
-          
-                    });       
-           
-}
            
 
 }
