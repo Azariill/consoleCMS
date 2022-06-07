@@ -14,8 +14,7 @@ class Database{
         // holds current employees
         this.employees =[];
         // holds roles
-        this.roles = [];
-        
+        this.roles = [];     
     }
     init(){
         
